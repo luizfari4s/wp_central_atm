@@ -2,7 +2,7 @@ import process
 import os
 from pathlib import Path
 from process import logger
-
+# ABA DE CONFIGURAÇÃO
 
 usuario = os.getlogin()
 

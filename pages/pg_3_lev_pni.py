@@ -7,6 +7,10 @@ import sys
 from urllib.parse import quote
 from datetime import datetime
 from os import getlogin
+from orquestrador.orq_3_lev_pni import flx_3
+from orquestrador.orq_3_lev_pni import preparar_input
+
+from wp_mnt_atm_ams_pni.config import datalake, input_projeto,output_projeto, nrperfil
 
 #from orquestrador.orq_1_rct_inhome import flx_1
 # ROOT = PROD
@@ -17,14 +21,11 @@ print(ROOT)
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from orquestrador.orq_2_rct_inhome import flx_2
-from orquestrador.orq_2_rct_inhome import preparar_input_ficha
 
-
-st.title("Recrutados In Home | Top Client")
+st.title("Amostra PNI")
 
 st.write(
-    "Automação para fluxo de entrada e validação de qualidade de cadastro"
+    "Automação para levantamento de amostra PNI"
 )
 
 with st.expander("Parametros", expanded=False):
@@ -95,25 +96,29 @@ with st.expander("Parametros", expanded=False):
     # =========================================================
 
     arquivo_ficha = st.file_uploader(
-        "📤 Selecione o arquivo da ficha",
+        "Faça o upload do arquivo com os individuos vivos em CSV",
         type=["xlsx", "xls", "csv"]
     )
 
+    arquivo_nr = st.file_uploader(
+        "Faça o upload do arquivo NRDcomicilios em Excel",
+        type=["xlsx", "xls", "csv"]
+    )
 
     # =========================================================
     # EXECUÇÃO
     # =========================================================
 
     if st.button(
-        "▶ Processar Recrutamento Top Client",
+        "▶ Processae Amostra PNI",
         use_container_width=True
     ):
 
 
-        if arquivo_ficha is None:
+        if ((arquivo_ficha) or (arquivo_nr))is None:
 
             st.warning(
-                "⚠️ Selecione a ficha antes de iniciar o processamento."
+                "Selecione os dados antes de iniciar o processamento."
             )
 
 
@@ -175,7 +180,7 @@ with st.expander("Parametros", expanded=False):
 
 
                 with st.spinner(
-                    "🔄 Processando Recrutamento Top Client..."
+                    "Processando Amostra PNI..."
                 ):
 
 
@@ -192,16 +197,25 @@ with st.expander("Parametros", expanded=False):
                         # ETAPA 1 - PREPARAR INPUT
                         # =====================================
 
-                        preparar_input_ficha(
-                            arquivo=arquivo_ficha
+                        preparar_input(
+                            arquivo=arquivo_ficha,
+                            pasta_destino=f'{datalake}{input_projeto}'
+                        )
+
+                        # =====================================
+                        # ETAPA 2 - PREPARAR INPUT
+                        # =====================================
+                        preparar_input(
+                            arquivo=arquivo_nr,
+                            pasta_destino=f'{datalake}{nrperfil}'
                         )
 
 
                         # =====================================
-                        # ETAPA 2 - PROCESSAMENTO
+                        # ETAPA 3 - PROCESSAMENTO
                         # =====================================
 
-                        flx_2(None)
+                        flx_3()
 
 
                 st.success(
@@ -235,12 +249,12 @@ st.subheader("📁 Processamentos disponíveis")
 
 with st.expander("📁 Ver histórico de processamentos",expanded=False):
     
-    PASTA_HISTORICO = Path(f'C:/Users/{getlogin()}/Numerator International/BKO - Documents/projeto-dados-ops/do_ficha/tc/output_validacao')
+    PASTA_HISTORICO = Path(f'C:/Users/{getlogin()}/Numerator International/BKO - Documents/projeto-dados-ops{output_projeto}')
     arquivos = list(PASTA_HISTORICO.glob("*.xlsx"))
     URL_BASE_SHAREPOINT = (
         "https://numeratorinternational.sharepoint.com"
         "/sites/BKO/Shared%20Documents"
-        "/projeto-dados-ops/do_ficha/tc/output_validacao"
+        f"/projeto-dados-ops/{output_projeto}"
     )
 
     def montar_url_sharepoint(arquivo):

@@ -123,13 +123,7 @@ st.write("")
 # EQUIPE OOH
 # =========================================================
 
-with st.expander("📊 OOH", expanded=False):
-
-    st.caption(
-        "Automações relacionadas às operações OOH."
-    )
-
-    st.write("")
+with st.expander("Out Off Home", expanded=False):
 
 
     # -----------------------------------------------------
@@ -223,16 +217,11 @@ with st.expander("📊 OOH", expanded=False):
 # OUTRAS EQUIPES
 # =========================================================
 
+            
 with st.expander("Qualidade Amostral"):
 
-    st.caption(
-            "Automações realacionadas ao time de qualidade amostral"
-        )
-    
-    st.write("")
-
     col1, col2 = st.columns([4, 1])
-    
+
     with col1:
     
         st.markdown("""
@@ -251,6 +240,7 @@ with st.expander("Qualidade Amostral"):
             st.switch_page(
                     "pages/pg_2_rct_inhome.py"
             )
+    st.divider()
 
     col1, col2 = st.columns([4, 1])
             
@@ -259,7 +249,7 @@ with st.expander("Qualidade Amostral"):
             st.markdown("""
             **Levantamento de Amostra PNI**
             
-            Validação de qualidade de cadastro dos recrutados Top Client
+            Determinação de amostra para o painel PNI
             """)
     with col2:
             
@@ -270,16 +260,145 @@ with st.expander("Qualidade Amostral"):
         ):
             
             st.switch_page(
-                    "pages/pg_2_rct_inhome.py"
+                    "pages/pg_3_lev_pni.py"
             )
-        
-            
-        st.divider()
-    
-    
+
     st.divider()
 
+
+    col1, col2 = st.columns([4, 1])
+
+    
+    with col1:
+        
+            st.markdown("""
+            **Levantamento Sample Balance (em implandação)**
+        
+            Revisão do acompanhamento de sample balance e dados PNC
+            """)
+    with col2:
+        
+            if st.button(
+                "Acessar",
+                key="btn_lv_balance",
+                use_container_width=True
+            ):
+        
+                st.switch_page(
+                        "pages/pg_2_rct_inhome.py"
+                )
+    
+
+with st.expander("Usage"):
+
+    col1, col2 = st.columns([4, 1])
+
+    with col1:
+    
+        st.markdown("""
+        **Masterfile Usage (Em Implantação)**
+    
+        Construção de base e classificações de produtos para USAGE
+        """)
+    with col2:
+    
+        if st.button(
+            "Acessar",
+            key="btn_mf_usage_br",
+            use_container_width=True
+        ):
+    
+            st.switch_page(
+                    "pages/pg_2_rct_inhome.py"
+            )
+    st.divider()
+
+    col1, col2 = st.columns([4, 1])
+            
+    with col1:
+            
+            st.markdown("""
+            **Validação de coleta Usage (Em Implantação)**
+            
+            Analise, treinamento e validação de pratos declarados no usage
+            """)
+    with col2:
+            
+        if st.button(
+            "Acessar",
+            key="btn_vl_prataos",
+            use_container_width=True
+        ):
+            
+            st.switch_page(
+                    "pages/pg_3_lev_pni.py"
+            )
+    
+
+st.subheader("Processos Gerais")
+
+st.write(
+    "Selecione o fluxo para visualizar"
+)
+
 st.write("")
+
+
+
+with st.expander('Dados Gerenciais'):
+
+    st.divider()
+         
+         
+    col1, col2 = st.columns([4, 1])
+         
+             
+    with col1:
+                 
+                     st.markdown("""
+                     **Levantamento Amostra Geral manutenção (em implandação)**
+                 
+                     Atualização e manutenção da amostra geral
+                     """)
+    with col2:
+                 
+                     if st.button(
+                         "Acessar",
+                         key="btn_ams_mnt",
+                         use_container_width=True
+                     ):
+                 
+                         st.switch_page(
+                                 "pages/pg_2_rct_inhome.py"
+                         )
+
+    st.divider()
+         
+         
+    col1, col2 = st.columns([4, 1])
+         
+             
+    with col1:
+                 
+                     st.markdown("""
+                     **Levantamento Amostra Geral Recrutamento (em implandação)**
+                 
+                     Atualização e manutenção da amostra geral
+                     """)
+    with col2:
+                 
+                     if st.button(
+                         "Acessar",
+                         key="btn_ams_rct",
+                         use_container_width=True
+                     ):
+                 
+                         st.switch_page(
+                                 "pages/pg_2_rct_inhome.py"
+                         )
+
+
+
 
 st.divider()
 
