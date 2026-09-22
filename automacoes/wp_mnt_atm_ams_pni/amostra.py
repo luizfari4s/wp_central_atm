@@ -57,7 +57,7 @@ def gap_amostral(ideal, atual, regiao):
 
 
 def construir_matrizes_e_universos(df_indiv, df_bs_domicilios, df_cotas_pni23, df_cotas_pni42):
-    from config import ORIGENS_PNI, ORIGENS_EXP
+    from wp_central_atm.automacoes.config import ORIGENS_PNI, ORIGENS_EXP
 
     # Amostra PNI atual:
     # PNI not null

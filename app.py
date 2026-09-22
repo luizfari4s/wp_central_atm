@@ -397,6 +397,31 @@ with st.expander('Dados Gerenciais'):
                                  "pages/pg_2_rct_inhome.py"
                          )
 
+    st.divider()
+             
+             
+    col1, col2 = st.columns([4, 1])
+             
+                 
+    with col1:
+                     
+                         st.markdown("""
+                         **Configuração geral**
+                     
+                         Ajustar caminhos relativos à pastas
+                         """)
+    with col2:
+                     
+                if st.button(
+                    "Acessar",
+                    key="btn_config",
+                    use_container_width=True
+                    ):
+                     
+                    st.switch_page(
+                     "pages/pg_4_config.py"
+                             )
+
 
 
 

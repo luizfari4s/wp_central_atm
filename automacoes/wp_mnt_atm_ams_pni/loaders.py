@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Arquivos de configuração modularizados
-from config import input_projeto,datalake,nrperfil,gac
+from wp_central_atm.automacoes.config import input_projeto,datalake,nrperfil,gac
 
 def carregar_bases():
     # informação pode ser importada com um loader na pagina

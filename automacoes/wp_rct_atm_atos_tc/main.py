@@ -2,14 +2,25 @@
 def main(dt_ref = None):
     import functions
     from os import getlogin
-    #import functions
+    from pathlib import Path
+    from configparser import ConfigParser
+
+    config = ConfigParser()
+
+    config.read(
+        Path.home() / "Documents" / "wp_central_atm" / "config.ini",
+        encoding="utf-8"
+)
+
+    dl = Path.home() / config["datalake"]["caminho"]
+        #import functions
  
 
     # Trocar para domínio interno do pc pessoal
-    dominio_interno = getlogin()
+    # dominio_interno = getlogin()
 
     # Pasta MASTER
-    datalake = f'C:/Users/{dominio_interno}/Numerator International/BKO - Documents/projeto-dados-ops'
+    datalake = dl
     # Opção 2
     # datalake = f'C:/Users/{dominio_interno}/Numerator International/projeto-dados-ops'
 

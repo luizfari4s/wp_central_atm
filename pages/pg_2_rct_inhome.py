@@ -96,7 +96,8 @@ with st.expander("Parametros", expanded=False):
 
     arquivo_ficha = st.file_uploader(
         "📤 Selecione o arquivo da ficha",
-        type=["xlsx", "xls", "csv"]
+        type=["xlsx", "xls", "csv"],
+        accept_multiple_files=True
     )
 
 
@@ -192,9 +193,11 @@ with st.expander("Parametros", expanded=False):
                         # ETAPA 1 - PREPARAR INPUT
                         # =====================================
 
-                        preparar_input_ficha(
-                            arquivo=arquivo_ficha
-                        )
+                        for arquivo in arquivo_ficha:
+
+                            preparar_input_ficha(
+                                arquivo=arquivo
+                            )
 
 
                         # =====================================

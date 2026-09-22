@@ -2,6 +2,18 @@ import process
 import os
 from pathlib import Path
 from process import logger
+from pandas import to_datetime
+
+from configparser import ConfigParser
+
+config = ConfigParser()
+
+config.read(
+        Path.home() / "Documents" / "wp_central_atm" / "config.ini",
+        encoding="utf-8"
+)
+
+dl = Path.home() / config["datalake"]["caminho"]
 # ABA DE CONFIGURAÇÃO
 
 usuario = os.getlogin()
@@ -13,7 +25,7 @@ usuario = os.getlogin()
 dominio_interno = usuario
 
 # Pasta MASTER
-datalake = f'C:/Users/{dominio_interno}/Numerator International/BKO - Documents/projeto-dados-ops'
+datalake = str(dl)
 
 # Pasta Dominio Interno
 pasta_ficha = '/do_ficha/tc/input_bruto'
@@ -47,10 +59,12 @@ def carregar_dados():
     df_ficha.loc[df_ficha['arquivo_origem'].str.startswith('ficha-backlog'), 'Status'] = 'BACKLOG'
     df_ficha.loc[df_ficha['arquivo_origem'].str.startswith('ficha-eligible'), 'Status'] = 'ENVIADO_WP'
     df_ficha.loc[df_ficha['arquivo_origem'].str.startswith('ficha-total'), 'Status'] = 'ENVIADO_WP_TOTAL'
+    df_ficha["data_recebimento"] = to_datetime(df_ficha["arquivo_origem"].str.extract(r"-(\d{8})-")[0], format="%Y%m%d").dt.date
 
     col = ['AVATAR FINALIZADO (BRT)','Gacode','Estado','Entrevistador#1','Entrevistador#2',
         'PanelSmart#1','PanelSmart#1.1','UserPS','Classe','P12a#1','P10a#1', 'P10b#1','P10d_t','P10e#2_t','Status']
     df_ficha['UserPS'] = df_ficha['PanelSmart#1'].astype(int) - 550000000
+    df_ficha.drop_duplicates()
     # Lógica: não desejo informar. Retirar se precisar substituir o uso
     # df_ficha = df_ficha.loc[~df_ficha.eq('nao_desejo_informar').any(axis=1)].copy()
     # df_trat é a base de dados utilizada para o processamento subsequente

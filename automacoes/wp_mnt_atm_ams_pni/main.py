@@ -4,7 +4,7 @@ from loaders import carregar_bases, preparar_bases_carregadas
 from outputs import gerar_saida
 from preprocessing import preparar_domicilios, preparar_individuos
 from selecao import finalizar_selecionados, selecao
-from config import ORIGENS_PNI, ORIGENS_EXP
+from wp_central_atm.automacoes.config import ORIGENS_PNI, ORIGENS_EXP
 
 
 def main():

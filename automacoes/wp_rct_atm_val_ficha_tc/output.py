@@ -26,7 +26,7 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
 
     logger.write( etapa='output', mensagem=f'ref separação de fichas')
     ficha_out = ficha_out[[
-        'data_processamento','gpm','Status','Lote','Data_inicio_importacao',
+        'data_processamento','gpm','Status','Lote','Data_inicio_importacao','data_recebimento',
         
         'dt_ficha','mes_produtivo_ficha','flag_complementar','Pre_Origen','Origen_Recrutado_32_IHS','Origen_Recrutado_42_Expansao','Origem_importar','validacao_gacode','Validacao_Origem',
         'Data_Entrada_GPM','mes_produtivo',
@@ -68,6 +68,7 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
         'Lote','Data_inicio_importacao', 'Status',# Base LOTES
         'dt_ficha',
         'mes_produtivo_ficha',
+        'data_recebimento',
         'Decisao_Final',
         'PanelSmart#1',
         'qtd_indiv(P12a#1)',
@@ -107,15 +108,16 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
         .reset_index()
     ).rename(columns={'PanelSmart#1':'iddomicilio'})
 
-    ordem = [
-        'SUBIR GPM',
-        'SUBIR GPM - AJUSTAR ORIGEM',
-        'SUBIR GPM - CRITERIO DE QUALIDADE (<25 ATOS)',
-        'OFF - REGIÃO FORA DA COLETA',
-        'GPM - FICHA IMPORTADA',
-        'OFF - DUPLICIDADES',
-        'OFF - TESTE',
-        'OFF - MORTALIDADE'
+    ordem = [     
+            'SUBIR GPM',
+            'SUBIR GPM - AJUSTAR ORIGEM',
+            'SUBIR GPM - CRITERIO DE QUALIDADE (>5 ATOS)',
+            'OFF - ABAIXO DE 5 ATOS',
+            'OFF - REGIÃO FORA DA COLETA',
+            'OFF - MORTALIDADE',
+            'OFF - TESTE',
+            'GPM - FICHA IMPORTADA',
+            'OFF - DUPLICIDADES'
     ]
 
     overview['Decisao_Final'] = Categorical(
@@ -133,7 +135,7 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
     leads_bolsa = ficha_out[
      (ficha_out.gpm == False) &      
     ~(ficha_out.Lote.isna()) &
-     (ficha_out.Decisao_Final.isin(['SUBIR GPM - CRITERIO DE QUALIDADE (<25 ATOS)',
+     (ficha_out.Decisao_Final.isin(['SUBIR GPM - CRITERIO DE QUALIDADE (>5 ATOS)',
                                     'SUBIR GPM - AJUSTAR ORIGEM',
                                     'SUBIR GPM']))][[
     "P10b#1",

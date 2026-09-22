@@ -45,9 +45,19 @@ def flx_2(data_corte=None):
     validacao_fichas()
 
 
+from pathlib import Path
+from os import getlogin
+
+
 def preparar_input_ficha(
     arquivo,
-    pasta_destino= f'C:/Users/{getlogin()}/Numerator International/BKO - Documents/projeto-dados-ops//do_ficha/tc/input_bruto'
+    pasta_destino=(
+        f"C:/Users/{getlogin()}/"
+        "Numerator International/"
+        "BKO - Documents/"
+        "projeto-dados-ops/"
+        "do_ficha/tc/input_bruto"
+    )
 ):
 
     pasta_destino = Path(pasta_destino)
@@ -58,19 +68,11 @@ def preparar_input_ficha(
         exist_ok=True
     )
 
-    # Remove arquivos antigos
-    for item in pasta_destino.iterdir():
-
-        if item.is_file():
-
-            item.unlink()
-
     # Define destino
     destino = pasta_destino / arquivo.name
 
     # Salva o novo arquivo
     with open(destino, "wb") as f:
-
         f.write(arquivo.getbuffer())
 
     return destino
