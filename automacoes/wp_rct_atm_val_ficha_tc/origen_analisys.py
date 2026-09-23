@@ -91,7 +91,7 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
 
     cond_aprovado = (
         (df_ids_recrutados_origen_validacao['Validacao_Origem'] == 'ORIGEM_CORRETA') &
-        (df_ids_recrutados_origen_validacao['saida_decisao'] != 'AGUARDAR') &
+        (df_ids_recrutados_origen_validacao['NumCompras'] >= 5) &
         (df_ids_recrutados_origen_validacao['Data_Entrada'].isna())
     )
 
@@ -99,7 +99,7 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
 
     cond_ajustar_origem = (
         (df_ids_recrutados_origen_validacao['Validacao_Origem'] == 'ORIGEM_INCORRETA') &
-        (df_ids_recrutados_origen_validacao['saida_decisao'] != 'AGUARDAR') &
+        (df_ids_recrutados_origen_validacao['NumCompras'] >= 1) &
         (df_ids_recrutados_origen_validacao['Data_Entrada'].isna())
     )
 
@@ -110,7 +110,7 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
     logger.write( etapa='processamento', mensagem=f'ref ajuste posterior origem')
     cond_qualidade = (
         (df_ids_recrutados_origen_validacao['Validacao_Origem'].isin(['ORIGEM_CORRETA','ORIGEM_INCORRETA'])) & 
-        (df_ids_recrutados_origen_validacao['NumCompras'] >= 5) &
+        (df_ids_recrutados_origen_validacao['NumCompras'] >= 1) &
         (df_ids_recrutados_origen_validacao['Data_Entrada'].isna())
         
     )
@@ -130,7 +130,7 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
     )
 
     cond_abaixo_5_atos = (
-        ((df_ids_recrutados_origen_validacao['NumCompras'] < 5) | (df_ids_recrutados_origen_validacao['NumCompras'].isna())) &
+        ((df_ids_recrutados_origen_validacao['NumCompras'] < 1) | (df_ids_recrutados_origen_validacao['NumCompras'].isna())) &
         (df_ids_recrutados_origen_validacao['Data_Entrada'].isna())
     )
 
@@ -159,9 +159,9 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
             'OFF - MORTALIDADE',
             'SUBIR GPM',
             'SUBIR GPM - AJUSTAR ORIGEM',
-            'OFF - ABAIXO DE 5 ATOS',
+            'OFF - ABAIXO DE 1 ATOS',
             'OFF - REGIÃO FORA DA COLETA',
-            'SUBIR GPM - CRITERIO DE QUALIDADE (>5 ATOS)',
+            'SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)',
             'GPM - FICHA IMPORTADA'
             
             

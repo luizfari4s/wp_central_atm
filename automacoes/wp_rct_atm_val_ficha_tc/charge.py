@@ -59,7 +59,12 @@ def carregar_dados():
     df_ficha.loc[df_ficha['arquivo_origem'].str.startswith('ficha-backlog'), 'Status'] = 'BACKLOG'
     df_ficha.loc[df_ficha['arquivo_origem'].str.startswith('ficha-eligible'), 'Status'] = 'ENVIADO_WP'
     df_ficha.loc[df_ficha['arquivo_origem'].str.startswith('ficha-total'), 'Status'] = 'ENVIADO_WP_TOTAL'
-    df_ficha["data_recebimento"] = to_datetime(df_ficha["arquivo_origem"].str.extract(r"-(\d{8})-")[0], format="%Y%m%d").dt.date
+    df_ficha["data_recebimento"] = (
+    to_datetime(
+        df_ficha["arquivo_origem"].str.extract(r"-(\d{8})(?:\.[^.]+)?$")[0],
+        format="%Y%m%d"
+    ).dt.date
+)
 
     col = ['AVATAR FINALIZADO (BRT)','Gacode','Estado','Entrevistador#1','Entrevistador#2',
         'PanelSmart#1','PanelSmart#1.1','UserPS','Classe','P12a#1','P10a#1', 'P10b#1','P10d_t','P10e#2_t','Status']

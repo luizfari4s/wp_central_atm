@@ -111,8 +111,8 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
     ordem = [     
             'SUBIR GPM',
             'SUBIR GPM - AJUSTAR ORIGEM',
-            'SUBIR GPM - CRITERIO DE QUALIDADE (>5 ATOS)',
-            'OFF - ABAIXO DE 5 ATOS',
+            'SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)',
+            'OFF - ABAIXO DE 1 ATOS',
             'OFF - REGIÃO FORA DA COLETA',
             'OFF - MORTALIDADE',
             'OFF - TESTE',
