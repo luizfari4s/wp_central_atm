@@ -109,7 +109,7 @@ def carregar_dados():
     )
 
   
-    _, nm_arq = process.pegar_arquivo_recente(f'C:/Users/{dominio_interno}/Numerator International/BKO - Documents/projeto-dados-ops/do_rep7', extensao=None,posicao=1)
+    _, nm_arq = process.pegar_arquivo_recente(f'{datalake}/do_rep7', extensao=None,posicao=1)
     print(nm_arq)
     logger.write(etapa='Charge', mensagem=f'ref rep7: {nm_arq}') 
     df_criterio = process.carregamento(
@@ -118,7 +118,7 @@ def carregar_dados():
         )
     df_criterio = df_criterio[['UserPS','DiaDeCompra','NumCompras']]
     
-    _, nm_arq = process.pegar_arquivo_recente(f'C:/Users/{dominio_interno}/Numerator International/BKO - Documents/projeto-dados-ops{pasta_output}', extensao=None,posicao=1)
+    _, nm_arq = process.pegar_arquivo_recente(f'{datalake}{pasta_output}', extensao=None,posicao=1)
     logger.write( etapa='processamento', mensagem=f'ref carregamento dados validação: {nm_arq}')
 
     df_ls_batch = process.carregamento(

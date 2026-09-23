@@ -162,22 +162,6 @@ class Logger:
 
         os.makedirs('logs', exist_ok=True)
 
-        # Puxa o arquivo config dentro da pasta do projeto 
-        PASTA_PROJETO = Path(__file__).resolve().parent
-        ARQUIVO_CONFIG = PASTA_PROJETO / "config.xlsx"
-        config = pd.read_excel(ARQUIVO_CONFIG)
-
-        # Analisa e coloca no ambiente a pasta onde ira salvar os logs do processoamento
-        # Feito isso, ele já salva os dadoa da execução automatizamente
-        caminho = config.loc[
-        config["chave"] == "logs_atm_val_ficha_tc","caminho"].iloc[0]
-
-        'C:/Users/luiz.farias/Numerator International/BKO - Documents/Report/Elegibilidade OOH/projeto_ooh/datalake/logs/pipeline_%Y%m%d.csv'
-        self.log_file = datetime.now().strftime(
-            caminho + 'logs_atm_val_ficha_tc_%Y%m%d.csv'
-        )
-
-
     def write(
         self,
         etapa,
@@ -200,23 +184,7 @@ class Logger:
             f'[{self.data_hora}] [{status}] [{etapa}] {mensagem}'
         )
 
-        if not os.path.exists(self.log_file):
-
-            log.to_csv(
-                self.log_file,
-                index=False,
-                sep=';'
-            )
-
-        else:
-
-            log.to_csv(
-                self.log_file,
-                mode='a',
-                header=False,
-                index=False,
-                sep=';'
-            )
+        
 logger = Logger()
 
 
