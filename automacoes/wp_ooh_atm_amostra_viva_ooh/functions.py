@@ -1003,14 +1003,6 @@ class Logger:
 
     data_hora = datetime.now()
 
-    def __init__(self):
-
-        os.makedirs('logs', exist_ok=True)
-
-        self.log_file = datetime.now().strftime(
-            f'C:/Users/{user}/Numerator International/BKO - Documents/Report/Elegibilidade OOH/projeto_ooh/datalake/logs/pipeline_%Y%m%d.csv'
-        )
-
 
     def write(
         self,
@@ -1034,23 +1026,7 @@ class Logger:
             f'[{self.data_hora}] [{status}] [{etapa}] {mensagem}'
         )
 
-        if not os.path.exists(self.log_file):
-
-            log.to_csv(
-                self.log_file,
-                index=False,
-                sep=';'
-            )
-
-        else:
-
-            log.to_csv(
-                self.log_file,
-                mode='a',
-                header=False,
-                index=False,
-                sep=';'
-            )
+        
 
 
 logger = Logger()
