@@ -251,8 +251,11 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
     import pandas as pd
     
     periodo_real = obter_periodo_produtivo(data_atual, df_periodo)
+    from pandas import to_datetime
+    data_corte = to_datetime(detalhe.data_recebimento.max())
+    periodo_corte = obter_periodo_produtivo(data_corte, df_periodo)
 
-    nm_arquivo = f'/PROD_VALIDACAO_FICHA_TC_{periodo_real}.xlsx'
+    nm_arquivo = f'/PROD_VALIDACAO_FICHA_TC_{periodo_corte}.xlsx'
     output = str(pst_out) + nm_arquivo
 
     with pd.ExcelWriter(output, engine="openpyxl") as writer:

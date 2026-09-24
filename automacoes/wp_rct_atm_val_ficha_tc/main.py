@@ -11,6 +11,7 @@ def main():
     
     df_periodo,df_trat,df_ficha,df_vivos,df_vivos_geral,df_origem_id,df_gacode,df_criterio,df_ls_batch,pst_egj,pst_out,df_mortalidade = charge.carregar_dados()
 
+
     vl_atos_recrutamento = duplic_analisys.analise_duplicidade_e_crterio(df_trat,df_criterio,df_vivos,df_mortalidade)
     vl_atos_recrutamento = duplic_analisys.analise_segmentacao_atos(vl_atos_recrutamento)
 

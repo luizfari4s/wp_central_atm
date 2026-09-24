@@ -91,16 +91,18 @@ def conjunto_principal(list_df,barcodes,reprocessing : bool, csv_path : str):
         df_final.StartTime = pd.to_datetime(df_final.StartTime).dt.date
         print(f"dados pré - processados históricos do qmob de {df_final.StartTime.min()} ate {df_final.StartTime.max()} ")
         return df_final
+
         
     else:
         df_final = pd.concat([list_df['qmob_project39026_report67317_Report2'], 
                               list_df['qmob_project40150_report70591_Reporte2'], 
                               list_df['qmob_project41470_report76923_Report2_Inc'],
-                              list_df['qmob_project41815_report78932_Report_cfdl']], 
+                              list_df['qmob_project41815_report78932_Report_cfdl']]                            , 
                               ignore_index = True)
         
         '''df_final = pd.concat([
-                              list_df['qmob_project41815_report104185_Report_cfdl']], 
+                              list_df['qmob_project49842_report135062_Report_cfdl'],
+                              list_df['qmob_project41815_report78932_Report_cfdl2']]], 
                               ignore_index = True)'''
         master = df_final.merge(barcodes, left_on='pScanner', right_on='CodBarra', how='left')
         aux = master.loc[~(master["Entry Type"].isin(['paused','incomplete']))].copy()

@@ -2,6 +2,7 @@ from pathlib import Path
 from datetime import datetime
 import sys
 from os import getlogin
+from pandas import to_datetime
 
 # Raiz do projeto wp_central_atm
 ROOT = Path(__file__).resolve().parent.parent
@@ -40,7 +41,7 @@ def flx_2(data_corte=None):
     # data_corte é utilizado para processos de fechamento e reprocessamento de bases
 
     print(f"[{datetime.now()}] [INFO] [ATOS] Processamento da base de ATOS")
-    atualizar_atos(data_corte)
+    atualizar_atos(to_datetime(data_corte))
 
     validacao_fichas()
 

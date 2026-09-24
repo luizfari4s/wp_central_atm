@@ -16,8 +16,8 @@ datalake = str(dl)
 
 input_projeto = f'{datalake}/do_ams_pni/input'
 output_projeto = f'{datalake}/do_ams_pni/output'
-nrperfil = '/do_bases/TopClient'
-gac = '/do_gacode'
+nrperfil = f'{datalake}/do_bases/TopClient'
+gac = f'{datalake}/do_gacode'
 
 # Regras hard-coded do notebook
 ORIGENS_PNI = [1, 2, 3, 4, 18, 16]

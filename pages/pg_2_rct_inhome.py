@@ -7,6 +7,7 @@ import sys
 from urllib.parse import quote
 from datetime import datetime
 from os import getlogin
+from datetime import date
 
 #from orquestrador.orq_1_rct_inhome import flx_1
 # ROOT = PROD
@@ -104,11 +105,22 @@ with st.expander("Parametros", expanded=False):
     # =========================================================
     # EXECUÇÃO
     # =========================================================
+    data_corte = st.date_input(
+        "📅 Data de corte",
+        value=date.today()
+    )
+
+    fechamento = st.checkbox(
+        "Executar como fechamento",
+        value=False
+    )
 
     if st.button(
         "▶ Processar Recrutamento Top Client",
         use_container_width=True
     ):
+        
+        
 
 
         if arquivo_ficha is None:
@@ -203,8 +215,11 @@ with st.expander("Parametros", expanded=False):
                         # =====================================
                         # ETAPA 2 - PROCESSAMENTO
                         # =====================================
-
-                        flx_2(None)
+                        if fechamento:
+                            flx_2(data_corte)
+                        else:
+                            flx_2(None)
+                        
 
 
                 st.success(

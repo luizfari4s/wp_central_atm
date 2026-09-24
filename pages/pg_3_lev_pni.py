@@ -10,23 +10,19 @@ from os import getlogin
 from orquestrador.orq_3_lev_pni import flx_3
 from orquestrador.orq_3_lev_pni import preparar_input
 
-from wp_mnt_atm_ams_pni.config import datalake, input_projeto,output_projeto, nrperfil
 
-#from orquestrador.orq_1_rct_inhome import flx_1
-# ROOT = PROD
-ROOT = Path(__file__).resolve().parent
-print(ROOT)
-
+ROOT = Path(__file__).resolve().parent.parent
 
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-
-st.title("Amostra PNI")
-
-st.write(
-    "Automação para levantamento de amostra PNI"
+from wp_mnt_atm_ams_pni.config import (
+    datalake,
+    input_projeto,
+    output_projeto,
+    nrperfil
 )
+
 
 with st.expander("Parametros", expanded=False):
 
@@ -199,7 +195,7 @@ with st.expander("Parametros", expanded=False):
 
                         preparar_input(
                             arquivo=arquivo_ficha,
-                            pasta_destino=f'{datalake}{input_projeto}'
+                            pasta_destino=f'{input_projeto}'
                         )
 
                         # =====================================
@@ -207,7 +203,7 @@ with st.expander("Parametros", expanded=False):
                         # =====================================
                         preparar_input(
                             arquivo=arquivo_nr,
-                            pasta_destino=f'{datalake}{nrperfil}'
+                            pasta_destino=f'{nrperfil}'
                         )
 
 
