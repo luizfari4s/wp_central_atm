@@ -3,3 +3,5 @@ streamlit
 urllib3
 requests
 openpyxl
+xlrd
+
