@@ -1,4 +1,5 @@
 def main(type, inicio, fim, day_minus):
+    
     from datetime import datetime
     import glob
     import pandas as pd
@@ -19,7 +20,7 @@ def main(type, inicio, fim, day_minus):
     logger.write( etapa='Charge', mensagem=' carregando dados QMOB') 
     # Carregamento das bases do QMOB no nivel de relatório (SURVEI & REPORT ID)
     list_df, init = functions.df_charge(type,inicio, fim)
-    
+
     # Carregamento da base do masterfile fixa
     logger.write( etapa='Charge', mensagem='Carregando MF')
     masterfile = functions.masterfile_data(f'C:/Users/{dominio_interno}/Numerator International/BKO - Documents/Report/Elegibilidade OOH/projeto_ooh/datalake/barcodes_ooh/OOH Masterfile - Barcodes Ativos - 2025_07_15 Resumo.CSV')
@@ -36,8 +37,8 @@ def main(type, inicio, fim, day_minus):
     logger.write( etapa='Operações', mensagem='Filtragem de dados brutos')
     init = datetime.strptime(init, "%d.%m.%Y %H:%M:%S").date()
 
-    #logger.write( etapa='info', mensagem=f'Priodo entre: {master_transformed.StartTime} e {master_transformed.StartTime.max() - pd.Timedelta(days=day_minus)}')       
-    master_transformed = master_transformed.loc[(master_transformed.StartTime >= init) &                                               
+    #logger.write( etapa='info', mensagem=f'Priodo entre: {master_transformed.StartTime} e {master_transformed.StartTime.max() - pd.Timedelta(days=day_minus)}')   
+    master_transformed = master_transformed.loc[(master_transformed.StartTime >= init) &   
     (master_transformed.StartTime <= master_transformed.StartTime.max() - pd.Timedelta(days=day_minus))]
 
     # Determinar Atos, o que é um ato e o que é um dnc linha a linha
@@ -50,7 +51,7 @@ def main(type, inicio, fim, day_minus):
 
     print(f'parametros recebidos: inicio {dt_inicio} e fim {dt_fim}')
 
-    
+
     logger.write( etapa='Operações', mensagem='Atos brutos processados')
 
     # Atualização da base Actos QMOB
@@ -84,6 +85,5 @@ def main(type, inicio, fim, day_minus):
 
     # Fim do processo
     logger.write( etapa='END', mensagem='Pipeline Concluído')
-    
 if __name__ == '__main__':  
     main('rt', "01.09.2026", '',0) 
