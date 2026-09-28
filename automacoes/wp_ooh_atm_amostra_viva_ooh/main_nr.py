@@ -4,7 +4,7 @@ def main(type, inicio, fim, day_minus):
     import pandas as pd
     import warnings
     import os
-    from . import functions
+    import functions
     warnings.filterwarnings(
     "ignore",
     message="DataFrame is highly fragmented",
@@ -47,6 +47,9 @@ def main(type, inicio, fim, day_minus):
     # informação auxiliar de data
     dt_inicio = master_transformed.StartTime.min()
     dt_fim = master_transformed.StartTime.max()
+
+    print(f'parametros recebidos: inicio {dt_inicio} e fim {dt_fim}')
+
     
     logger.write( etapa='Operações', mensagem='Atos brutos processados')
 
@@ -83,4 +86,4 @@ def main(type, inicio, fim, day_minus):
     logger.write( etapa='END', mensagem='Pipeline Concluído')
     
 if __name__ == '__main__':  
-    main('rt', "01.08.2026", '',0) 
+    main('rt', "01.09.2026", '',0) 

@@ -49,7 +49,6 @@ def report_info():
     df = pd.read_csv(path + 'report_info.csv', sep = ';',encoding ='latin1')
 
     return df, path
-
 def df_charge(type, inicio, fim):
     list_df = {}
 
@@ -94,10 +93,8 @@ def conjunto_principal(list_df,barcodes,reprocessing : bool, csv_path : str):
 
         
     else:
-        df_final = pd.concat([list_df['qmob_project39026_report67317_Report2'], 
-                              list_df['qmob_project40150_report70591_Reporte2'], 
-                              list_df['qmob_project41470_report76923_Report2_Inc'],
-                              list_df['qmob_project41815_report78932_Report_cfdl']]                            , 
+        df_final = pd.concat([list_df['qmob_project41815_report78932_Report_cfdl'],
+                              list_df['qmob_project49842_report135062_Report_cfdl2']],
                               ignore_index = True)
         
         '''df_final = pd.concat([
@@ -125,7 +122,15 @@ def transform(df):
     df = df[~df['Username'].isin(['brhansel', '55000016'])]
 
     # Transformação
-    df.loc[:, 'StartTime'] = pd.to_datetime(df.StartTime, format='%d.%m.%Y %H:%M:%S').dt.date
+    df.loc[df["reportId"].isin(78932), "StartTime"] = pd.to_datetime(
+        df.loc[df["reportId"].isin(78932), "StartTime"],
+        format="%d.%m.%Y %H:%M:%S"
+    ).dt.date
+
+    df.loc[df["reportId"].isin(135062), "StartTime"] = pd.to_datetime(
+        df.loc[df["reportId"].isin(135062), "StartTime"],
+        format="%m.%d.%Y %H:%M:%S"
+    ).dt.date    
     df.loc[:, 'WeekNumber'] = 'Semana' + df['StartTime'].apply(lambda x: str(x.isocalendar()[1]))
     df.loc[:, 'ATO'] = None
     df.loc[:, 'DNC'] = None
@@ -136,10 +141,11 @@ def transform_w(df):
 
     df = df.copy()
     import pandas as pd
+
     aux = {
-        'Entry ID' : 'EntryID',
-        'Entry Type' : 'EntryType',
-        'Start time' : 'StartTime'
+        'Entry ID': 'EntryID',
+        'Entry Type': 'EntryType',
+        'Start time': 'StartTime'
     }
 
     df.rename(columns=aux, inplace=True)
@@ -147,11 +153,42 @@ def transform_w(df):
     # Retirar os usuários de teste
     df = df[~df['Username'].isin(['brhansel', '55000016'])]
 
-    # Transformação
-    df.loc[:, 'StartTime'] = pd.to_datetime(df.StartTime, format='%d.%m.%Y %H:%M:%S').dt.date
-    df.loc[:, 'WeekNumber'] = df['StartTime'].apply(lambda x: str(x.isocalendar()[1]))
-    df.loc[:, 'ATO'] = None
-    df.loc[:, 'DNC'] = None
+    df["reportId"] = df["reportId"].astype(str)
+
+    # Série temporária com dtype datetime
+    start_time = pd.Series(
+        pd.NaT,
+        index=df.index,
+        dtype="datetime64[ns]"
+    )
+
+    # Reporte antigo
+    mask_antigo = df["reportId"].eq("78932")
+
+    start_time.loc[mask_antigo] = pd.to_datetime(
+        df.loc[mask_antigo, "StartTime"],
+        format="%d.%m.%Y %H:%M:%S"
+    )
+
+    # Reporte novo
+    mask_novo = df["reportId"].eq("135062")
+
+    start_time.loc[mask_novo] = pd.to_datetime(
+        df.loc[mask_novo, "StartTime"],
+        format="%m.%d.%Y %H:%M:%S"
+    )
+
+    # Padroniza tudo
+    df["StartTime"] = start_time.dt.date
+
+    df["WeekNumber"] = df["StartTime"].apply(
+        lambda x: str(x.isocalendar()[1])
+    )
+
+    df["ATO"] = None
+    df["DNC"] = None
+
+    df["StartTime"] = start_time.dt.strftime("%Y.%m.%d")
 
     return df
 

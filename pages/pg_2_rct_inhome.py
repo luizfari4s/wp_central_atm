@@ -145,7 +145,7 @@ with st.expander("Parametros", expanded=False):
 
             output = StreamlitOutput(
                 container=log_box,
-                limite=1
+                limite=50
             )
 
 

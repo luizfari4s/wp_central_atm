@@ -95,8 +95,6 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
         
     ]]
 
-    detalhe.loc[detalhe.mes_produtivo == '2026-08'].Status.value_counts(dropna=False)
-
     detalhe.drop_duplicates(inplace=True)
 
     logger.write( etapa='output', mensagem=f'ref atualização overview')
@@ -116,8 +114,9 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
             'OFF - REGIÃO FORA DA COLETA',
             'OFF - MORTALIDADE',
             'OFF - TESTE',
-            'GPM - FICHA IMPORTADA',
-            'OFF - DUPLICIDADES'
+            'OFF - DUPLICIDADES',
+            'GPM - FICHA IMPORTADA'
+            
     ]
 
     overview['Decisao_Final'] = Categorical(
@@ -135,12 +134,12 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
     leads_bolsa = ficha_out[
      (ficha_out.gpm == False) &      
     ~(ficha_out.Lote.isna()) &
-     (ficha_out.Decisao_Final.isin(['SUBIR GPM - CRITERIO DE QUALIDADE (>5 ATOS)',
+     (ficha_out.Decisao_Final.isin(['SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)',
                                     'SUBIR GPM - AJUSTAR ORIGEM',
                                     'SUBIR GPM']))][[
     "P10b#1",
     'P10a#1',
-    'data_processamento',
+    'data_recebimento',
     'Status',
     'Lote',
     'Data_inicio_importacao',
