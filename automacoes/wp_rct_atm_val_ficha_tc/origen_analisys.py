@@ -91,7 +91,7 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
 
     cond_aprovado = (
         (df_ids_recrutados_origen_validacao['Validacao_Origem'] == 'ORIGEM_CORRETA') &
-        (df_ids_recrutados_origen_validacao['NumCompras'] >= 5) &
+        (df_ids_recrutados_origen_validacao['NumCompras'] >= 1) &
         (df_ids_recrutados_origen_validacao['Data_Entrada'].isna())
     )
 
@@ -159,9 +159,9 @@ def analise_segmentacao_origens(df_ids_recrutados_origen_validacao):
             'OFF - MORTALIDADE',
             'SUBIR GPM',
             'SUBIR GPM - AJUSTAR ORIGEM',
-            'OFF - ABAIXO DE 1 ATOS',
+            'OFF - 0 ATOS',
             'OFF - REGIÃO FORA DA COLETA',
-            'SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)',
+            'SUBIR GPM - ACIMA DE >1 ATO',
             'GPM - FICHA IMPORTADA'
             
             

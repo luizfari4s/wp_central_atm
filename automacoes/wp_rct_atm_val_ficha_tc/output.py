@@ -109,8 +109,8 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
     ordem = [     
             'SUBIR GPM',
             'SUBIR GPM - AJUSTAR ORIGEM',
-            'SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)',
-            'OFF - ABAIXO DE 1 ATOS',
+            'SUBIR GPM - ACIMA DE >1 ATO',
+            'OFF - 0 ATOS',
             'OFF - REGIÃO FORA DA COLETA',
             'OFF - MORTALIDADE',
             'OFF - TESTE',
@@ -134,7 +134,7 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
     leads_bolsa = ficha_out[
      (ficha_out.gpm == False) &      
     ~(ficha_out.Lote.isna()) &
-     (ficha_out.Decisao_Final.isin(['SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)',
+     (ficha_out.Decisao_Final.isin(['SUBIR GPM - ACIMA DE >1 ATO',
                                     'SUBIR GPM - AJUSTAR ORIGEM',
                                     'SUBIR GPM']))][[
     "P10b#1",

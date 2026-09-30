@@ -296,7 +296,7 @@ with st.expander("Usage"):
     with col1:
     
         st.markdown("""
-        **Masterfile Usage (Em Implantação)**
+        **Masterfile Usage**
     
         Construção de base e classificações de produtos para USAGE
         """)
@@ -309,7 +309,7 @@ with st.expander("Usage"):
         ):
     
             st.switch_page(
-                    "pages/pg_2_rct_inhome.py"
+                    "pages/pg_5_mf_usage_br.py"
             )
     st.divider()
 

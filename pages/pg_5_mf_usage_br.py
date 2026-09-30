@@ -1,3 +1,4 @@
+# pages/01_amostra_viva.py
 # pages/pg_1_amostra_viva.py
 import streamlit as st
 import logging
@@ -7,21 +8,8 @@ import sys
 from urllib.parse import quote
 from datetime import datetime
 from os import getlogin
-from orquestrador.orq_3_lev_pni import flx_3
+from orquestrador.orq_5_mf_br import flx_5,input_projeto
 from orquestrador.orq_3_lev_pni import preparar_input
-
-
-ROOT = Path(__file__).resolve().parent.parent
-
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from wp_mnt_atm_ams_pni.config import (
-    datalake,
-    input_projeto,
-    output_projeto,
-    nrperfil
-)
 
 st.title("Geração e importação | PNI")
 
@@ -96,13 +84,8 @@ with st.expander("Parametros", expanded=False):
     # INPUT
     # =========================================================
 
-    arquivo_ficha = st.file_uploader(
-        "Faça o upload do arquivo com os individuos vivos em CSV",
-        type=["xlsx", "xls", "csv"]
-    )
-
-    arquivo_nr = st.file_uploader(
-        "Faça o upload do arquivo NRDcomicilios em Excel",
+    mf_atual = st.file_uploader(
+        "Faça o upload do masterfile atualizado em CSV",
         type=["xlsx", "xls", "csv"]
     )
 
@@ -116,12 +99,11 @@ with st.expander("Parametros", expanded=False):
     ):
 
 
-        if ((arquivo_ficha) or (arquivo_nr))is None:
+        if ((mf_atual))is None:
 
             st.warning(
                 "Selecione os dados antes de iniciar o processamento."
             )
-
 
         else:
 
@@ -199,24 +181,15 @@ with st.expander("Parametros", expanded=False):
                         # =====================================
 
                         preparar_input(
-                            arquivo=arquivo_ficha,
+                            arquivo=mf_atual,
                             pasta_destino=f'{input_projeto}'
                         )
-
-                        # =====================================
-                        # ETAPA 2 - PREPARAR INPUT
-                        # =====================================
-                        preparar_input(
-                            arquivo=arquivo_nr,
-                            pasta_destino=f'{nrperfil}'
-                        )
-
 
                         # =====================================
                         # ETAPA 3 - PROCESSAMENTO
                         # =====================================
 
-                        flx_3()
+                        flx_5()
 
 
                 st.success(
@@ -246,64 +219,3 @@ with st.expander("Parametros", expanded=False):
                     )
 
 st.subheader("📁 Processamentos disponíveis")
-
-
-with st.expander("📁 Ver histórico de processamentos",expanded=False):
-    
-    PASTA_HISTORICO = Path(f'C:/Users/{getlogin()}/Numerator International/BKO - Documents/projeto-dados-ops{output_projeto}')
-    arquivos = list(PASTA_HISTORICO.glob("*.xlsx"))
-    URL_BASE_SHAREPOINT = (
-        "https://numeratorinternational.sharepoint.com"
-        "/sites/BKO/Shared%20Documents"
-        f"/projeto-dados-ops/{output_projeto}"
-    )
-
-    def montar_url_sharepoint(arquivo):
-
-        nome_arquivo = quote(arquivo.name)
-
-        return f"{URL_BASE_SHAREPOINT}/{nome_arquivo}"
-
-    arquivos = sorted(
-        PASTA_HISTORICO.glob("*.xlsx"),
-        key=lambda x: x.stat().st_mtime,
-        reverse=True
-    )
-
-
-    for arquivo in arquivos[:5]:
-
-        data_modificacao = datetime.fromtimestamp(
-                arquivo.stat().st_mtime
-            )
-
-        url_arquivo = montar_url_sharepoint(arquivo)
-
-        st.markdown(
-                f"📄 [{arquivo.name}]({url_arquivo})"
-            )
-
-        st.caption(
-                f"🕒 {data_modificacao.strftime('%d/%m/%Y %H:%M')}"
-            )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

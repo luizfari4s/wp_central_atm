@@ -87,7 +87,9 @@ def controle_lotes(df_ids_recrutados_origen_validacao,df_ls_batch,df_periodo,df_
         df_rct_batch_vivos_pend_importacao["Decisao_Final"].isin([
             "SUBIR GPM",
             "SUBIR GPM - AJUSTAR ORIGEM",
-            "SUBIR GPM - CRITERIO DE QUALIDADE (>1 ATOS)"
+            'SUBIR GPM - ACIMA DE >1 ATO',
+            'OFF - 0 ATOS'
+
         ])
         & df_rct_batch_vivos_pend_importacao["Lote"].isna() & df_rct_batch_vivos_pend_importacao["data_processamento"].isna()
     )

@@ -1,13 +1,10 @@
 # pages/01_amostra_viva.py
 import streamlit as st
-import contextlib
 from pathlib import Path
-import sys
 from urllib.parse import quote
-from datetime import date, timedelta,datetime
 from os import getlogin
 from orquestrador.orq_4_config import salvar_config,carregar_config
-    # ============================================================
+# ============================================================
 # PÁGINA
 # ============================================================
 
