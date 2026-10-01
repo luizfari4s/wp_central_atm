@@ -38,6 +38,7 @@ pasta_engj ='/do_ficha/tc/output_engj'
 pasta_rep7 = '/do_rep7'
 pasta_engj ='/do_ficha/tc/output_engj'
 pasta_mort = '/do_mortos'
+pasta_recept = '/do_ficha/tc/input_receptivo'
 
 
 def carregar_dados():
@@ -135,6 +136,11 @@ def carregar_dados():
         prefixo= 'Mortalidades'
     )
 
-    return df_periodo,df_trat,df_ficha,df_vivos,df_vivos_geral,df_origem_id,df_gacode,df_criterio,df_ls_batch,pst_egj,pst_out,df_mortalidade
+    df_recept = process.carregamento(
+            path= Path(datalake + pasta_recept),
+            prefixo= 'topclient'
+        )
+    df_recept['kantar_id'] = df_recept['kantar_id'].astype(str)
+    return df_periodo,df_trat,df_ficha,df_vivos,df_vivos_geral,df_origem_id,df_gacode,df_criterio,df_ls_batch,pst_egj,pst_out,df_mortalidade,df_recept
 
 

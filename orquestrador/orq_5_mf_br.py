@@ -18,7 +18,6 @@ datalake = str(dl)
 rbc_path = f'{datalake}/do_mf_usage/rbc'
 input_projeto = f'{datalake}/do_mf_usage/input'
 output_projeto = f'{datalake}/do_mf_usage/output'
-
 # Raiz do projeto wp_central_atm
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -50,3 +49,15 @@ def flx_5():
         caminho_saida=str(output_projeto) + "/MF_BR_USAGE_teste.csv",
     )
 
+
+def preparar_input(arquivo, pasta_destino):
+
+    pasta_destino = Path(pasta_destino)
+    pasta_destino.mkdir(parents=True, exist_ok=True)
+
+    destino = pasta_destino / arquivo.name
+
+    with open(destino, "wb") as f:
+        f.write(arquivo.getbuffer())
+
+    return destino

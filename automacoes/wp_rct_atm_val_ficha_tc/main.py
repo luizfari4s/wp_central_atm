@@ -9,7 +9,7 @@ import sys
 
 def main():
     
-    df_periodo,df_trat,df_ficha,df_vivos,df_vivos_geral,df_origem_id,df_gacode,df_criterio,df_ls_batch,pst_egj,pst_out,df_mortalidade = charge.carregar_dados()
+    df_periodo,df_trat,df_ficha,df_vivos,df_vivos_geral,df_origem_id,df_gacode,df_criterio,df_ls_batch,pst_egj,pst_out,df_mortalidade, df_recept = charge.carregar_dados()
 
 
     vl_atos_recrutamento = duplic_analisys.analise_duplicidade_e_crterio(df_trat,df_criterio,df_vivos,df_mortalidade)
@@ -22,7 +22,7 @@ def main():
 
     df_rct_batch_vivos_pend_importacao = controle_lotes.controle_lotes(df_ids_recrutados_origen_validacao,df_ls_batch,df_periodo,df_vivos_geral)
 
-    output.arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst_egj,pst_out)
+    output.arquivos_de_saida(df_recept,df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst_egj,pst_out)
 
 if __name__ == "__main__":
     main()

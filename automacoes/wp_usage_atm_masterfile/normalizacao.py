@@ -1,7 +1,7 @@
 import pandas as pd
 import unicodedata
 
-from config import (
+from config_1 import (
     ATIVOS_EXCLUIDOS,
     COLUNAS_DESCARTAR,
     NORMALIZACOES_EXATAS,

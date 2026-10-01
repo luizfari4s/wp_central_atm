@@ -87,7 +87,7 @@ def carregamento(prefixo, path, hd=None,fluxo_externo=False,sh=None):
         extensao = os.path.splitext(arq)[1].lower()
 
         if extensao == ".csv":
-            df = pd.read_csv(arq, sep=';', low_memory=False)
+            df = pd.read_csv(arq, sep=',', low_memory=False, encoding="utf-8")
 
         elif extensao in [".xlsx", ".xls"]:
 

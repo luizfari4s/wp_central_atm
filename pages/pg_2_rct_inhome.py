@@ -101,6 +101,12 @@ with st.expander("Parametros", expanded=False):
         accept_multiple_files=True
     )
 
+    arquivo_receptivo = st.file_uploader(
+            "📤 Selecione o arquivo do receptivo",
+            type=["xlsx", "xls", "csv"],
+            accept_multiple_files=False
+        )
+
 
     # =========================================================
     # EXECUÇÃO
@@ -110,10 +116,7 @@ with st.expander("Parametros", expanded=False):
         value=date.today()
     )
 
-    fechamento = st.checkbox(
-        "Executar como fechamento",
-        value=False
-    )
+    fechamento = True
 
     if st.button(
         "▶ Processar Recrutamento Top Client",
@@ -123,7 +126,7 @@ with st.expander("Parametros", expanded=False):
         
 
 
-        if arquivo_ficha is None:
+        if (arquivo_ficha or arquivo_receptivo)is None:
 
             st.warning(
                 "⚠️ Selecione a ficha antes de iniciar o processamento."
@@ -208,10 +211,11 @@ with st.expander("Parametros", expanded=False):
                         for arquivo in arquivo_ficha:
 
                             preparar_input_ficha(
-                                arquivo=arquivo
+                                arquivo=arquivo,
+                                pasta_destino='do_ficha/tc/input_bruto'
                             )
 
-
+                        preparar_input_ficha(arquivo=arquivo_receptivo, pasta_destino='do_ficha/tc/input_receptivo')
                         # =====================================
                         # ETAPA 2 - PROCESSAMENTO
                         # =====================================

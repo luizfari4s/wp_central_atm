@@ -37,6 +37,16 @@ from wp_rct_atm_atos_tc.main import main as atualizar_atos
 
 from wp_rct_atm_val_ficha_tc.main import main as validacao_fichas
 
+from configparser import ConfigParser
+
+config = ConfigParser()
+
+config.read(Path.home() / "Documents" / "wp_central_atm" / "config.ini", encoding="utf-8")
+
+dl = Path.home() / config["datalake"]["caminho"]
+
+datalake = str(dl)
+
 def flx_2(data_corte=None):
     # data_corte é utilizado para processos de fechamento e reprocessamento de bases
 
@@ -52,13 +62,7 @@ from os import getlogin
 
 def preparar_input_ficha(
     arquivo,
-    pasta_destino=(
-        f"C:/Users/{getlogin()}/"
-        "Numerator International/"
-        "BKO - Documents/"
-        "projeto-dados-ops/"
-        "do_ficha/tc/input_bruto"
-    )
+    pasta_destino 
 ):
 
     pasta_destino = Path(pasta_destino)
@@ -70,7 +74,7 @@ def preparar_input_ficha(
     )
 
     # Define destino
-    destino = pasta_destino / arquivo.name
+    destino = datalake / pasta_destino / arquivo.name
 
     # Salva o novo arquivo
     with open(destino, "wb") as f:

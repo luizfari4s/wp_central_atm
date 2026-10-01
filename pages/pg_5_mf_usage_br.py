@@ -8,10 +8,11 @@ import sys
 from urllib.parse import quote
 from datetime import datetime
 from os import getlogin
-from orquestrador.orq_5_mf_br import flx_5,input_projeto
-from orquestrador.orq_3_lev_pni import preparar_input
+from orquestrador.orq_5_mf_br import flx_5,preparar_input,input_projeto,output_projeto, datalake
 
-st.title("Geração e importação | PNI")
+
+print(output_projeto)
+st.title("Levantamento Mastefile | Usage")
 
 st.write(
     "Automação para seleção de individuos para participação do PNI"
@@ -217,5 +218,45 @@ with st.expander("Parametros", expanded=False):
                     root_logger.removeHandler(
                         streamlit_handler
                     )
-
 st.subheader("📁 Processamentos disponíveis")
+
+
+with st.expander("📁 Ver histórico de processamentos",expanded=False):
+    
+    PASTA_HISTORICO = Path(output_projeto)
+    arquivos = list(PASTA_HISTORICO.glob("*.xlsx"))
+    URL_BASE_SHAREPOINT = (
+        "https://numeratorinternational.sharepoint.com"
+        "/sites/BKO/Shared%20Documents"
+        f"/projeto-dados-ops/{output_projeto}"
+    )
+
+    def montar_url_sharepoint(arquivo):
+
+        nome_arquivo = quote(arquivo.name)
+
+        return f"{URL_BASE_SHAREPOINT}/{nome_arquivo}"
+
+    arquivos = sorted(
+        PASTA_HISTORICO.glob("*.xlsx"),
+        key=lambda x: x.stat().st_mtime,
+        reverse=True
+    )
+
+
+    for arquivo in arquivos[:5]:
+
+        data_modificacao = datetime.fromtimestamp(
+                arquivo.stat().st_mtime
+            )
+
+        url_arquivo = montar_url_sharepoint(arquivo)
+
+        st.markdown(
+                f"📄 [{arquivo.name}]({url_arquivo})"
+            )
+
+        st.caption(
+                f"🕒 {data_modificacao.strftime('%d/%m/%Y %H:%M')}"
+            )
+

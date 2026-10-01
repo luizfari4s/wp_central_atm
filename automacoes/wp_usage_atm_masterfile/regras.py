@@ -1,6 +1,6 @@
 import pandas as pd
 
-from config import (
+from config_1 import (
     CORRECOES_CLASSIFICACAO,
     REGRAS_CLASSIFICACAO_PARCIAL,
     RESULTADO_CONFLITO,

@@ -4,7 +4,7 @@ from pandas import Categorical
 from process import obter_periodo_produtivo
 from openpyxl.styles import PatternFill, Font
 from openpyxl.utils import get_column_letter
-def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst_egj,pst_out):
+def arquivos_de_saida(df_recept,df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst_egj,pst_out):
     logger.write( etapa='output', mensagem=f'ref identificacao fichas validadas')
     
     df_ficha['PanelSmart#1'] = df_ficha['PanelSmart#1'].astype(str)
@@ -15,18 +15,19 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
                                                                 'Lote','Data_inicio_importacao','data_processamento','gpm','Duplicidade_de_Email',
                                                                     'Duplicidade_de_Telefone', 'Classific', 'chave_setor','FSPanel1'  #Base LOTE
                                                                 ]], on='PanelSmart#1', how='left')
-
+    ficha_out = ficha_out.merge(df_recept[['kantar_id','whatsapp_enviado']], left_on='PanelSmart#1', right_on='kantar_id', how='left')
+    ##ficha_out = ficha_out.loc[ficha_out['whatsapp_enviado'] == 'T']
     logger.write( etapa='output', mensagem=f'ref regra hard code linha 18 (output.py) | lotes para não importar')
     
     from datetime import datetime
-    ficha_out.loc[(ficha_out.Decisao_Final.isin(['SUBIR GPM - CRITERIO DE QUALIDADE (<25 ATOS)',
+    ficha_out.loc[(ficha_out.Decisao_Final.isin(['SUBIR GPM - ACIMA DE >1 ATO',
                                                 'SUBIR GPM - AJUSTAR ORIGEM',
                                                 'SUBIR GPM'])) & (ficha_out.gpm == True), 'Lote'] = 'NAO_IMPORTAR_' + str(datetime.now().strftime('%Y%m%d_%H%M%S'))
 
 
     logger.write( etapa='output', mensagem=f'ref separação de fichas')
     ficha_out = ficha_out[[
-        'data_processamento','gpm','Status','Lote','Data_inicio_importacao','data_recebimento',
+        'data_processamento','gpm','whatsapp_enviado','Status','Lote','Data_inicio_importacao','data_recebimento',
         
         'dt_ficha','mes_produtivo_ficha','flag_complementar','Pre_Origen','Origen_Recrutado_32_IHS','Origen_Recrutado_42_Expansao','Origem_importar','validacao_gacode','Validacao_Origem',
         'Data_Entrada_GPM','mes_produtivo',
@@ -69,6 +70,7 @@ def arquivos_de_saida(df_rct_batch_vivos_pend_importacao,df_ficha,df_periodo,pst
         'dt_ficha',
         'mes_produtivo_ficha',
         'data_recebimento',
+        'whatsapp_enviado',
         'Decisao_Final',
         'PanelSmart#1',
         'qtd_indiv(P12a#1)',

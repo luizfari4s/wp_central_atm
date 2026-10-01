@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pipeline import executar_pipeline
 
-from config import rbc_path,input_projeto, output_projeto
+from config_1 import rbc_path,input_projeto, output_projeto
 def main(
     rule_table_path,
     level_data_path,
